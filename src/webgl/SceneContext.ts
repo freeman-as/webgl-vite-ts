@@ -33,7 +33,7 @@ export class SceneContext {
     createIndexBuffer() { }
 
     setAttribute(attribute: VertexAttribute) {
-        this.gl.enableVertexAttribArray(attribute.location);
-        this.gl.vertexAttribPointer(attribute.location, attribute.stride, this.gl.FLOAT, false, 0, 0);
+        this.gl.enableVertexAttribArray(attribute.options.location);
+        this.gl.vertexAttribPointer(attribute.options.location, attribute.options.stride, this.gl.FLOAT, false, 0, 0);
     }
 }
