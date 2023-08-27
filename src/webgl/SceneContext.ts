@@ -3,7 +3,7 @@ import { Canvas } from "./Canvas";
 import { Shader } from "../../src/webgl/Shader";
 import { Program } from "../../src/webgl/Program";
 import { VertexBufferObject } from "./core/VertexBufferObject";
-import { VertexAttribute } from "./VertexAttribute";
+import { VertexAttributeOptions } from "./VertexAttribute";
 
 export class SceneContext {
     readonly gl: IWebGLContext;
@@ -32,8 +32,8 @@ export class SceneContext {
 
     createIndexBuffer() { }
 
-    setAttribute(attribute: VertexAttribute) {
-        this.gl.enableVertexAttribArray(attribute.options.location);
-        this.gl.vertexAttribPointer(attribute.options.location, attribute.options.stride, this.gl.FLOAT, false, 0, 0);
+    setAttribute(options: VertexAttributeOptions) {
+        this.gl.enableVertexAttribArray(options.location);
+        this.gl.vertexAttribPointer(options.location, options.stride, this.gl.FLOAT, false, 0, 0);
     }
 }

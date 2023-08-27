@@ -1,12 +1,19 @@
 export class VertexAttribute {
     public readonly data: number[];
-    public readonly options: { [key in string]: number }
+    public readonly options: VertexAttributeOptions;
 
     constructor(data: number[], location: number, stride: number) {
         this.data = data;
-        this.options = {
-            location: location,
-            stride: stride
-        };
+        this.options = new VertexAttributeOptions(location, stride);
+    }
+}
+
+export class VertexAttributeOptions {
+    public readonly location: number;
+    public readonly stride: number;
+
+    constructor(location: number, stride: number) {
+        this.location = location;
+        this.stride = stride;
     }
 }

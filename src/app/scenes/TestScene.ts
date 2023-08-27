@@ -53,12 +53,12 @@ export class TestScene extends SceneBase {
         // 頂点座標
         const vtxPosBuf = this.sceneCtx.createVertexBuffer(new Float32Array(posAttribute.data));
         vtxPosBuf.bufferData();
-        this.sceneCtx.setAttribute(posAttribute);
+        this.sceneCtx.setAttribute(posAttribute.options);
 
         // 頂点カラー
         const vtxColBuf = this.sceneCtx.createVertexBuffer(new Float32Array(colAttribute.data));
         vtxColBuf.bufferData();
-        this.sceneCtx.setAttribute(colAttribute);
+        this.sceneCtx.setAttribute(colAttribute.options);
 
         // 各種行列の生成と初期化
         this.m = new Matrix();
