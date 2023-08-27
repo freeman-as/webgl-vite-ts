@@ -1,23 +1,33 @@
+import { IWebGLContext, IWebGLContexxtProvider } from "./types";
 import { Canvas } from "../Canvas";
-import { WebGLContextProvider, WebGL2ContextProvider } from "../WebGLContextProvider";
+import { SceneContext } from "../SceneContext";
+import { TriangleScene } from "../../app/scenes/TriangleScene";
+import { IScene } from "../IScene";
+// import _ from "loadsh";
 
 export class WebGL {
-    private provider: WebGLContextProvider | WebGL2ContextProvider;
+    readonly gl: IWebGLContext;
+    private readonly provider: IWebGLContexxtProvider;
+    private readonly canvas: Canvas;
+    private readonly CANVAS_SIZE: number[] = [500, 500];
+    private scene: IScene;
 
-    canvas: Canvas;
-    gl: WebGLRenderingContext | WebGL2RenderingContext;
-
-    constructor(provider: WebGLContextProvider | WebGL2ContextProvider) {
-        this.canvas = new Canvas();
+    constructor(provider: IWebGLContexxtProvider) {
+        this.canvas = new Canvas(...this.CANVAS_SIZE);
+        // NOTE: setSizeの呼ぶタイミングで表示おかしくなる
+        // this.canvas.setSize(300, 300);
         this.provider = provider;
         this.gl = this.provider.getContext(this.canvas);
-        this.canvas.setSize(500, 300);
-
-        console.log('WebGL initialized');
     }
 
     setup() {
-        this.Clear();
+        this.clear();
+        this.createScene();
+    }
+
+    createScene() {
+        const sceneContext = new SceneContext(this.gl, this.canvas);
+        this.scene = new TriangleScene(sceneContext);
     }
 
     render() { }
@@ -25,10 +35,26 @@ export class WebGL {
     dispose() {
 
     }
+    private createVbo(data: number[]) {
+        let buffer = this.gl.createBuffer();
 
-    private Clear() {
+        if (buffer == null) {
+            throw new Error("failed to create buffer.");
+        }
+
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, buffer);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(data), this.gl.STATIC_DRAW);
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);
+
+        return buffer;
+    }
+
+    private clear() {
+        // canvasカラー初期化
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
-        this.gl.clear(this.gl.COLOR_BUFFER_BIT)
+        // 初期深度設定
+        this.gl.clearDepth(1.0);
+        this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
     }
 }
 

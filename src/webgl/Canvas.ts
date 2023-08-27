@@ -1,17 +1,19 @@
-import { WebGLContextProvider } from "./WebGLContextProvider";
-
 export class Canvas {
-    canvas: HTMLCanvasElement;
+    private readonly canvas: HTMLCanvasElement;
 
-    constructor() {
+    constructor(width: number = 0, height: number = 0) {
         this.canvas = document.querySelector('.canvas') as HTMLCanvasElement;
-        this.canvas.width = 0;
-        this.canvas.height = 0;
+        this.setSize(width, height);
     }
+
 
     setSize(width: number, height: number) {
         this.canvas.width = width;
         this.canvas.height = height;
+    }
+
+    get aspect() {
+        return this.canvas.width / this.canvas.height;
     }
 
     getContext(contextId: string): RenderingContext | null {
