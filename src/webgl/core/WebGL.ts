@@ -1,16 +1,17 @@
 import { IWebGLContext, IWebGLContexxtProvider } from "./types";
 import { Canvas } from "../Canvas";
 import { SceneContext } from "../SceneContext";
-import { TriangleScene } from "../../app/scenes/TriangleScene";
 import { IScene } from "../IScene";
+import { factories } from "../SceneFactory";
+
 // import _ from "loadsh";
 
 export class WebGL {
     readonly gl: IWebGLContext;
     private readonly provider: IWebGLContexxtProvider;
     private readonly canvas: Canvas;
+    private readonly scene: IScene;
     private readonly CANVAS_SIZE: number[] = [500, 500];
-    private scene: IScene;
 
     constructor(provider: IWebGLContexxtProvider) {
         this.canvas = new Canvas(...this.CANVAS_SIZE);
@@ -22,19 +23,27 @@ export class WebGL {
 
     setup() {
         this.clear();
-        this.createScene();
     }
 
-    createScene() {
+    createScene(factory: factories) {
         const sceneContext = new SceneContext(this.gl, this.canvas);
-        this.scene = new TriangleScene(sceneContext);
+        const scene = factory.create(sceneContext);
+        this.scene = scene;
     }
 
-    render() { }
+    render() {
+        const frame = () => {
+            this.clear();
+            this.scene.render();
+            window.requestAnimationFrame(frame);
+        }
+        frame();
+    }
 
     dispose() {
 
     }
+
     private createVbo(data: number[]) {
         let buffer = this.gl.createBuffer();
 
