@@ -32,9 +32,17 @@ export class WebGL {
     }
 
     render() {
+        let currentTime = performance.now();
+        let deltaTime = currentTime;
+
         const frame = () => {
             this.clear();
-            this.scene.render();
+
+            const prevTime = currentTime;
+            currentTime = performance.now();
+            deltaTime = currentTime - prevTime;
+
+            this.scene.render(deltaTime);
             window.requestAnimationFrame(frame);
         }
         frame();
