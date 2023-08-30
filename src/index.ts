@@ -1,6 +1,10 @@
 import './style.css'
 import { WebGL } from './webgl/core/WebGL.ts'
-import { TriangleSceneFactory } from './webgl/SceneFactory.ts';
+import {
+  TriangleSceneFactory,
+  TriangleAnimationSceneFactory,
+  IndicesSceneFactory
+} from './webgl/SceneFactory.ts';
 import { WebGLContextProvider, WebGL2ContextProvider } from './webgl/WebGLContextProvider.ts'
 
 window.addEventListener('load', () => {
@@ -8,6 +12,8 @@ window.addEventListener('load', () => {
   var gl = new WebGL(new WebGLContextProvider());
   gl.setup();
   // Scene
-  gl.createScene(new TriangleSceneFactory());
+  // gl.createScene(new TriangleSceneFactory());
+  // gl.createScene(new TriangleAnimationSceneFactory());
+  gl.createScene(new IndicesSceneFactory());
   gl.render();
 });

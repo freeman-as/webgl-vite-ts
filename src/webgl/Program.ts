@@ -38,6 +38,12 @@ export class Program {
     }
 
     getUniformLocation(name: string) {
-        return this.gl.getUniformLocation(this.program, name);
+        const location = this.gl.getUniformLocation(this.program, name);
+
+        if (location == null) {
+            throw Error(`failed to get uniform location ${name}`);
+        }
+
+        return location;
     }
 }

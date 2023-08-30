@@ -30,7 +30,9 @@ export class SceneContext {
         return new VertexBufferObject<T>(this.gl, this.gl.ARRAY_BUFFER, data, this.gl.STATIC_DRAW);
     }
 
-    createIndexBuffer() { }
+    createIndexBuffer<T extends BufferSource>(data: T) {
+        return new VertexBufferObject<T>(this.gl, this.gl.ELEMENT_ARRAY_BUFFER, data, this.gl.STATIC_DRAW);
+    }
 
     setAttribute(options: VertexAttributeOptions) {
         this.gl.enableVertexAttribArray(options.location);
