@@ -1,9 +1,9 @@
 import { IScene } from "./IScene";
 
 export abstract class SceneBase implements IScene {
-    render(): void {
-        this.draw();
+    render(deltaTime: number): void {
+        this.draw(deltaTime);
     }
 
-    abstract draw(): void
+    abstract draw(deltaTime: number): void
 }

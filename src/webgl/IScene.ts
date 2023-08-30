@@ -1,3 +1,3 @@
 export interface IScene {
-    render(): void;
+    render(deltaTime: number): void;
 }
